@@ -4,7 +4,7 @@ export default function Services() {
       <div className="text-center mb-12">
         <h1 className="mt-5 text-center font-bold text-3xl mb-4">Services</h1>
         <p className="text-lg max-w-2xl mx-auto">
-          Contact me if you need any of the following services - you'll receive
+          Contact me if you need any of the following services you will receive
           a prompt response!
         </p>
       </div>
