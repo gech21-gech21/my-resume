@@ -1,4 +1,4 @@
-// pages/api/contact.ts
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 
@@ -30,7 +30,7 @@ export default async function handler(
       },
     });
 
-    // Email to you (the site owner)
+  
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
@@ -48,7 +48,6 @@ export default async function handler(
       replyTo: email,
     });
 
-    // Confirmation email to the sender
     await transporter.sendMail({
       from: `"${process.env.EMAIL_SENDER_NAME}" <${process.env.EMAIL_USER}>`,
       to: email,
