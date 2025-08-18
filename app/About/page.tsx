@@ -4,9 +4,7 @@ import Image from "next/image";
 export default function About() {
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-center font-bold text-3xl mt-5 mb-8">
-        About me
-      </h1>
+      <h1 className="text-center font-bold text-3xl mt-5 mb-8">About me</h1>
 
       <div className="flex flex-col sm:flex-row rounded-lg p-4 sm:p-0 overflow-hidden">
         <div className="relative h-64 w-64 mx-auto sm:mx-0 sm:ml-4 sm:mt-11 mb-6 sm:mb-0 animate-slideInLeft">
@@ -27,9 +25,9 @@ export default function About() {
             experiences. As a full-stack developer, I leverage modern
             technologies like React, Tailwind CSS, and Node.js to build
             responsive web applications, RESTful APIs, and scalable solutions.
-            My journey in tech is driven by a curiosity to solve real-world
-            problems through code. I have developed multiple projects—from dynamic
-            web apps to intuitive interfaces—always prioritizing clean
+            My journey in tech is driven by a curiosity to solve real world
+            problems through code. I have developed multiple projects from
+            dynamic web apps to intuitive interfaces always prioritizing clean
             architecture and optimal performance. Beyond coursework, I actively
             explore AI/ML and contribute to tech communities, believing
             collaborative learning accelerates innovation.

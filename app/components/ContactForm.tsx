@@ -3,17 +3,20 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { contactSchema } from "../lib/schemas";
 import { z } from "zod";
-import { ContactFormData, FormStatus } from "../types/contact";
 
-const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-});
+type FormData = z.infer<typeof contactSchema>;
+
+type StatusType = "info" | "success" | "error";
+
+interface StatusState {
+  message: string;
+  type: StatusType;
+}
 
 export default function ContactForm() {
-  const [status, setStatus] = useState<FormStatus>(null);
+  const [status, setStatus] = useState<StatusState | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -21,11 +24,11 @@ export default function ContactForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ContactFormData>({
+  } = useForm<FormData>({
     resolver: zodResolver(contactSchema),
   });
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setStatus({ message: "Sending message...", type: "info" });
 
@@ -39,18 +42,29 @@ export default function ContactForm() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to send message");
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.message || "Failed to send message");
       }
 
       setStatus({
-        message: "Message sent successfully!",
+        message:
+          result.message ||
+          "Message sent successfully! see  the response in the email  !! ",
         type: "success",
       });
       reset();
     } catch (error) {
       console.error("Submission error:", error);
       setStatus({
-        message: "Failed to send message. Please try again later.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Failed to send message. Please try again later.",
         type: "error",
       });
     } finally {
@@ -64,7 +78,7 @@ export default function ContactForm() {
         Contact Me
       </h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 ">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="block justify-center items-center">
           <div>
             <label
@@ -76,11 +90,11 @@ export default function ContactForm() {
                 id="name"
                 type="text"
                 {...register("name")}
-                className={`w-2/3 px-4 py-4  ml-4  shadow-lg bg-white border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                className={`w-2/3 px-4 py-4 ml-4 shadow-lg bg-white border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                   errors.name ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="Your name"
-              />{" "}
+              />
             </label>
             {errors.name && (
               <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
@@ -92,7 +106,7 @@ export default function ContactForm() {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              your Email :
+              Your Email :
               <input
                 id="email"
                 type="email"
@@ -101,7 +115,7 @@ export default function ContactForm() {
                   errors.email ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="your email"
-              />{" "}
+              />
             </label>
             {errors.email && (
               <p className="mt-1 text-sm text-red-600">
@@ -115,17 +129,17 @@ export default function ContactForm() {
               htmlFor="message"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              your Message{" "}
+              Your Message
             </label>
             <textarea
               id="message"
               rows={5}
               {...register("message")}
-              className={`w-2/3 px-4 py-2 shadow-lg bg-white border ml-17 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+              className={`w-2/3 px-4 py-2 shadow-lg bg-white border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                 errors.message ? "border-red-500" : "border-gray-300"
               }`}
               placeholder="Your message here..."
-            />{" "}
+            />
             {errors.message && (
               <p className="mt-1 text-sm text-red-600">
                 {errors.message.message}
