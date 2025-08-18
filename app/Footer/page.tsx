@@ -20,22 +20,16 @@ export default function Footer() {
 
         <div className="flex flex-col ml-10 md:flex-row justify-center items-center mt-10 mb-5">
           <Link href="https://t.me/gecho_01" className="mb-4 md:mb-0">
-            <Image
-              width={50}
-              height={50}
-              src="/telegram.jpg"
-              alt="Telegram"
-            />
+            <Image width={30} height={20} src="/telegram.png" alt="Telegram" />
           </Link>
           <Link
             href="https://github.com/gech21-gech21"
             className="mb-4 md:mb-0 md:mx-4"
           >
-            <Image width={50} height={50} src="/github.png" alt="GitHub" />
+            <Image width={30} height={20} src="/github.png" alt="GitHub" />
           </Link>
         </div>
       </div>
-
       <h1 className="font-bold">
         © {new Date().getFullYear()} Getahun Fikade. All rights reserved.
       </h1>
